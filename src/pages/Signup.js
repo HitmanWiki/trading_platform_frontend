@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
+import API from '../utils/api';
 
 export default function SignUp() {
     const [formData, setFormData] = useState({
@@ -36,12 +37,23 @@ export default function SignUp() {
         return Object.keys(tempErrors).length === 0;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (!validate()) return;
-        console.log('Form Data:', formData);
-        alert('Signup Successful!');
+
+        try {
+            const response = await API.post('/users/signup', {
+                email: formData.email,
+                password: formData.password,
+            });
+            console.log('Signup Successful:', response.data);
+            alert('Signup Successful!');
+        } catch (error) {
+            console.error('Signup Error:', error.response || error);
+            alert('Signup failed. Please check the console for details.');
+        }
     };
+
 
     return (
         <div
