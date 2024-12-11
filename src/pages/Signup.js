@@ -46,13 +46,14 @@ export default function SignUp() {
                 email: formData.email,
                 password: formData.password,
             });
-            console.log('Signup Successful:', response.data);
-            alert('Signup Successful!');
+            console.log('Signup Response:', response.data);
+            alert('Signup successful!');
         } catch (error) {
-            console.error('Signup Error:', error.response || error);
-            alert('Signup failed. Please check the console for details.');
+            console.error('Signup Error:', error.response ? error.response.data : error.message);
+            alert('Signup failed: ' + (error.response ? error.response.data.message : error.message));
         }
     };
+
 
 
     return (
